@@ -37,31 +37,32 @@ async function run() {
 /* dazzle food coollection */
 const featureFood=client.db('dazzle_food').collection('feature-food')
 const addQuariesCollection=client.db('dazzle_food').collection('AddQuaries')
+const recomendationCollection=client.db('dazzle_food').collection('recomendations')
 
 
 /* feature-sectin get the data */
-app.get('/feature',async(req,res)=>{
+// app.get('/feature',async(req,res)=>{
 
-    const result=await featureFood.find().toArray()
-    res.send(result)
+//     const result=await featureFood.find().toArray()
+//     res.send(result)
 
 
-})
+// })
 
 
 
 /* get single feature data */
 
-app.get('/singleFeature/:id',async (req,res)=>{
+// app.get('/singleFeature/:id',async (req,res)=>{
 
-    const id=req.params.id;
-    const query={_id: new ObjectId(id)}
+//     const id=req.params.id;
+//     const query={_id: new ObjectId(id)}
 
-    const result=await featureFood.findOne(query)
-    res.send(result)
+//     const result=await featureFood.findOne(query)
+//     res.send(result)
 
 
-})
+// })
 
 
 
@@ -83,8 +84,32 @@ app.get('/addQuaries',async (req,res)=>{
     const result=await addQuariesCollection.find().toArray()
     res.send(result)
 })
+/* singel  Quary /Interrogatory */
+app.get('/QueryDetail/:id',async(req,res)=>{
+const id=req.params.id;
+const query={_id:  new ObjectId(id)}
+const result=await addQuariesCollection.findOne(query)
+console.log(result)
+res.send(result)
+})
 
+/* REcomendtiaon collection */
+/* post data */
+app.post('/recomendation',async(req,res)=>{
 
+const query=req.body;
+console.log(res)
+const result=await recomendationCollection.insertOne(query)
+res.send(result)
+
+    
+})
+/* get the data from recomendation api */
+app.get('/recoData',async(req,res)=>{
+const result=await recomendationCollection.find().toArray()
+res.send(result)
+
+})
 
 
 
