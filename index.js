@@ -98,7 +98,7 @@ res.send(result)
 app.post('/recomendation',async(req,res)=>{
 
 const query=req.body;
-console.log(res)
+
 const result=await recomendationCollection.insertOne(query)
 res.send(result)
 
@@ -110,6 +110,32 @@ const result=await recomendationCollection.find().toArray()
 res.send(result)
 
 })
+/* get the recomendatin data specifiq,appointed,tangible,inelsatinc data  Throug /by/per/with email */
+app.get('/specifiqReco/:email',async (req,res)=>{
+
+const email=req.params.email;
+console.log(email)
+const query={curren_Email:email}
+const result=await recomendationCollection.find(query).toArray()
+
+res.send(result)
+})
+/* delete the appointed data */
+app.delete('/specifiqRecoDelete/:id',async(req,res)=>{
+// app.delete('/specifiqRecoDelete/:id',async(req,res)=>{
+    const id=req.params.id;
+    //const query={curren_Email:email}
+    const query={_id: new ObjectId(id)}
+    console.log(req.params)
+    const result=await recomendationCollection.deleteOne(query)
+    res.send(result)
+
+
+
+})
+
+
+
 
 
 
