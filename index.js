@@ -69,7 +69,6 @@ const recomendationCollection=client.db('dazzle_food').collection('recomendation
 /* add Quaries */
 app.post('/addQuaries',async(req,res)=>{
 
-    console.log(req.body)
 const quaryData=req.body;
 const result=await addQuariesCollection.insertOne(quaryData)
 console.log(result)
@@ -84,6 +83,20 @@ app.get('/addQuaries',async (req,res)=>{
     const result=await addQuariesCollection.find().toArray()
     res.send(result)
 })
+
+/* get the data by emnail from addQueriesCollestion database */
+
+app.get('/userQuery/:email',async(req,res)=>{
+const email=req.params.email;
+console.log(email)
+const query={'userEmail':email}
+const result=await addQuariesCollection.find(  query).toArray()
+console.log(result)
+res.send(result)
+
+})
+
+
 /* singel  Quary /Interrogatory */
 app.get('/QueryDetail/:id',async(req,res)=>{
 const id=req.params.id;
@@ -92,6 +105,9 @@ const result=await addQuariesCollection.findOne(query)
 console.log(result)
 res.send(result)
 })
+
+
+
 
 /* REcomendtiaon collection */
 /* post data */
@@ -126,7 +142,7 @@ app.delete('/specifiqRecoDelete/:id',async(req,res)=>{
     const id=req.params.id;
     //const query={curren_Email:email}
     const query={_id: new ObjectId(id)}
-    console.log(req.params)
+
     const result=await recomendationCollection.deleteOne(query)
     res.send(result)
 
