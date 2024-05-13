@@ -102,7 +102,7 @@ async function run() {
     });
 
     /* update add querty coolection */
-    app.put("/updateQuery/:id", async (req, res) => {
+    app.put("/addQuaries/:id", async (req, res) => {
       const id = req.params.id;
       const queryData = req.body;
       console.log(queryData)
