@@ -81,7 +81,7 @@ async function run() {
       res.send(result);
     });
 
-    /* get the data by emnail from addQueriesCollestion database */
+    /* get the data by emnail from addQueriesCollestion database=================== */
 
     app.get("/userQuery/:email", async (req, res) => {
       const email = req.params.email;
@@ -102,10 +102,10 @@ async function run() {
     });
 
     /* update add querty coolection */
-    app.put("/addQuaries/:id", async (req, res) => {
+    app.put("/updateQuery/:id", async (req, res) => {
       const id = req.params.id;
       const queryData = req.body;
-      console.log(queryData)
+    //  console.log(queryData)
       const query = { _id: new ObjectId(id) };
       const option = { upsert: true };
       const updateDoc = {
@@ -129,7 +129,26 @@ res.send(result)
       res.send(result);
     });
 
-    /* REcomendtiaon collection */
+
+
+
+
+    /* delete/Uproot/deface/obliterate/pass the sponage over data from my Query Collection */
+app.delete('/myQueryDelete/:id',async (req,res)=>{
+const id=req.params.id;
+const query={_id:new ObjectId(id)}
+const result=await addQuariesCollection.deleteOne(query)
+res.send(result)
+
+
+
+})
+
+
+
+
+
+    /* REcomendtiaon collection ======================================*/
     /* post data */
     app.post("/recomendation", async (req, res) => {
       const query = req.body;
