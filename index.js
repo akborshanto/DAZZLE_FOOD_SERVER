@@ -10,6 +10,9 @@ app.use(
       "http://localhost:5175",
       "http://localhost:5174",
       "http://localhost:5173",
+
+      "https://dazzle-food.web.app",
+      "https://dazzle-food.firebaseapp.com"
     ],
     credentials: true,
   })
@@ -80,6 +83,22 @@ async function run() {
       const result = await addQuariesCollection.find().toArray();
       res.send(result);
     });
+
+
+
+/* ==========================PAGINNATION===================== */
+app.get("/pagination", async (req, res) => {
+    //const result = await addQuariesCollection.find().toArray();
+//1.
+const count=await addQuariesCollection.estimatedDocumentCount()
+res.send({count})
+
+  //  res.send(result);
+  });
+
+
+/* =======================PAGINATION============================= */
+
 
     /* get the data by emnail from addQueriesCollestion database=================== */
 
@@ -182,7 +201,7 @@ res.send(result)
       res.send(result);
     });
 
-    await client.db("admin").command({ ping: 1 });
+   // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
