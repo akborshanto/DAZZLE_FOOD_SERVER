@@ -80,16 +80,31 @@ async function run() {
     /* get the data addQuaries get data */
 
     app.get("/addQuaries", async (req, res) => {
+     //   console.log('add queries',req.query)
       const result = await addQuariesCollection.find().toArray();
+
       res.send(result);
     });
 
 
 
 /* ==========================PAGINNATION===================== */
+app.get("/addQuariess", async (req, res) => {
+  //  console.log('add queries',req.query)
+    const page=parseInt(req.query.page)
+    const size=parseInt(req.query.size)
+    console.log(page,size)
+  const result = await addQuariesCollection.find()
+  .skip(page * size)
+  .limit(size).toArray();
+
+  res.send(result);
+});
+
 app.get("/pagination", async (req, res) => {
     //const result = await addQuariesCollection.find().toArray();
-//1.
+//1.c
+console.log(req.query)
 const count=await addQuariesCollection.estimatedDocumentCount()
 res.send({count})
 
