@@ -51,38 +51,25 @@ async function run() {
       .db("dazzle_food")
       .collection("recomendations");
 
-    /* feature-sectin get the data */
-    // app.get('/feature',async(req,res)=>{
-
-    //     const result=await featureFood.find().toArray()
-    //     res.send(result)
-
-    // })
-
-    /* get single feature data */
-
-    // app.get('/singleFeature/:id',async (req,res)=>{
-
-    //     const id=req.params.id;
-    //     const query={_id: new ObjectId(id)}
-
-    //     const result=await featureFood.findOne(query)
-    //     res.send(result)
-
-    // })
 
     /* add Quaries */
     app.post("/addQuaries", async (req, res) => {
+      
       const quaryData = req.body;
       const result = await addQuariesCollection.insertOne(quaryData);
       console.log(result);
+
+/* inc */
+
       res.send(result);
     });
     /* get the data addQuaries get data */
 
     app.get("/addQuaries", async (req, res) => {
      //   console.log('add queries',req.query)
-      const result = await addQuariesCollection.find().toArray();
+     //desending order by current TIMe
+      const result = await addQuariesCollection.find().sort({currentTime: -1})
+.toArray();
 
       res.send(result);
     });
@@ -98,7 +85,7 @@ app.get("/addQuariess", async (req, res) => {
   const result = await addQuariesCollection.find()
   .skip(page * size)
   .limit(size).toArray();
-
+ 
   res.send(result);
 });
 
@@ -237,3 +224,15 @@ run().catch(console.dir);
 app.listen(port, () => {
   console.log("litenting ");
 });
+/*  */
+// const database = client.db('your_database_name');
+//     const collection = database.collection('your_collection_name');
+
+//     // Example usage of $inc
+//     const filter = { _id: 'some_document_id' };
+//     const updateDoc = {
+//       $inc: { yourField: 1 } // Increment yourField by 1
+//     };
+
+//     const result = await collection.updateOne(filter, updateDoc);
+//     console.log(`Document updated with _id: ${result.upsertedId}`);
