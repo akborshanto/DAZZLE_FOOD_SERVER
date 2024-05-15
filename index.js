@@ -13,7 +13,6 @@ app.use(
 
       "https://dazzle-food.web.app",
       "https://dazzle-food.firebaseapp.com",
-      
     ],
     credentials: true,
   })
@@ -51,66 +50,65 @@ async function run() {
       .db("dazzle_food")
       .collection("recomendations");
 
-
     /* add Quaries */
     app.post("/addQuaries", async (req, res) => {
-      
       const quaryData = req.body;
       const result = await addQuariesCollection.insertOne(quaryData);
-      console.log(result);
+     // console.log(result);
 
-/* inc */
+      /* inc */
 
       res.send(result);
     });
     /* get the data addQuaries get data */
 
     app.get("/addQuaries", async (req, res) => {
-     //   console.log('add queries',req.query)
-     //desending order by current TIMe
-      const result = await addQuariesCollection.find().sort({currentTime: -1})
-.toArray();
+      //   console.log('add queries',req.query)
+      //desending order by current TIMe
+      const result = await addQuariesCollection
+        .find()
+        .sort({ currentTime: -1 })
+        .toArray();
 
       res.send(result);
     });
 
+    /* ==========================PAGINNATION===================== */
+    app.get("/addQuariess", async (req, res) => {
+      //  console.log('add queries',req.query)
+      const page = parseInt(req.query.page);
+      const size = parseInt(req.query.size);
+      //console.log(page, size);
+      const result = await addQuariesCollection
+        .find()
+        .skip(page * size)
+        .limit(size)
+        .sort({currentTime: -1})
+        .toArray()
 
+      res.send(result);
+    });
 
-/* ==========================PAGINNATION===================== */
-app.get("/addQuariess", async (req, res) => {
-  //  console.log('add queries',req.query)
-    const page=parseInt(req.query.page)
-    const size=parseInt(req.query.size)
-    console.log(page,size)
-  const result = await addQuariesCollection.find()
-  .skip(page * size)
-  .limit(size).toArray();
- 
-  res.send(result);
-});
+    app.get("/pagination", async (req, res) => {
+      //const result = await addQuariesCollection.find().toArray();
+      //1.c
+      console.log(req.query);
+      const count = await addQuariesCollection.estimatedDocumentCount();
+      res.send({ count });
 
-app.get("/pagination", async (req, res) => {
-    //const result = await addQuariesCollection.find().toArray();
-//1.c
-console.log(req.query)
-const count=await addQuariesCollection.estimatedDocumentCount()
-res.send({count})
+      //  res.send(result);
+    });
 
-  //  res.send(result);
-  });
-
-
-/* =======================PAGINATION============================= */
-
+    /* =======================PAGINATION============================= */
 
     /* get the data by emnail from addQueriesCollestion database=================== */
 
     app.get("/userQuery/:email", async (req, res) => {
       const email = req.params.email;
-      console.log(email);
+     // console.log(email);
       const query = { userEmail: email };
       const result = await addQuariesCollection.find(query).toArray();
-      console.log(result);
+    //  console.log(result);
       res.send(result);
     });
 
@@ -127,7 +125,7 @@ res.send({count})
     app.put("/updateQuery/:id", async (req, res) => {
       const id = req.params.id;
       const queryData = req.body;
-    //  console.log(queryData)
+      //  console.log(queryData)
       const query = { _id: new ObjectId(id) };
       const option = { upsert: true };
       const updateDoc = {
@@ -136,10 +134,12 @@ res.send({count})
         },
       };
 
-
-const result=await addQuariesCollection.updateOne(query,updateDoc,option)
-res.send(result)
-
+      const result = await addQuariesCollection.updateOne(
+        query,
+        updateDoc,
+        option
+      );
+      res.send(result);
     });
 
     /* singel  Quary /Interrogatory */
@@ -147,29 +147,18 @@ res.send(result)
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await addQuariesCollection.findOne(query);
-      console.log(result);
+      //console.log(result);
       res.send(result);
     });
 
-
-
-
-
     /* delete/Uproot/deface/obliterate/pass the sponage over data from my Query Collection */
-app.delete('/myQueryDelete/:id',async (req,res)=>{
-const id=req.params.id;
-console.log("DELETE",id)
-const query={_id:new ObjectId(id)}
-const result=await addQuariesCollection.deleteOne(query)
-res.send(result)
-
-
-
-})
-
-
-
-
+    app.delete("/myQueryDelete/:id", async (req, res) => {
+      const id = req.params.id;
+     // console.log("DELETE", id);
+      const query = { _id: new ObjectId(id) };
+      const result = await addQuariesCollection.deleteOne(query);
+      res.send(result);
+    });
 
     /* REcomendtiaon collection ======================================*/
     /* post data */
@@ -178,9 +167,7 @@ res.send(result)
 
       const result = await recomendationCollection.insertOne(query);
 
-/* recomendation cound */
-
-
+      /* recomendation cound */
 
       res.send(result);
     });
@@ -192,7 +179,7 @@ res.send(result)
     /* get the recomendatin data specifiq,appointed,tangible,inelsatinc data  Throug /by/per/with email */
     app.get("/specifiqReco/:email", async (req, res) => {
       const email = req.params.email;
-      console.log(email);
+     // console.log(email);
       const query = { curren_Email: email };
       const result = await recomendationCollection.find(query).toArray();
 
@@ -209,7 +196,7 @@ res.send(result)
       res.send(result);
     });
 
-   // await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
