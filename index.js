@@ -12,7 +12,8 @@ app.use(
       "http://localhost:5173",
 
       "https://dazzle-food.web.app",
-      "https://dazzle-food.firebaseapp.com"
+      "https://dazzle-food.firebaseapp.com",
+      
     ],
     credentials: true,
   })
@@ -189,6 +190,11 @@ res.send(result)
       const query = req.body;
 
       const result = await recomendationCollection.insertOne(query);
+
+/* recomendation cound */
+
+
+
       res.send(result);
     });
     /* get the data from recomendation api */
